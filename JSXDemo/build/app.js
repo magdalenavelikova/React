@@ -6,15 +6,21 @@ var root = ReactDOM.createRoot(rootElement);
 //const headerElement = React.createElement(  "header",  {},  headingElement,  secondHeadingElement);
 //console.log(JSON.parse(JSON.stringify(headerElement)));
 //example with JSX Syntax
+var Heading = function Heading(props) {
+  return React.createElement(
+    "h1",
+    null,
+    "Hello from ",
+    props.title,
+    "!"
+  );
+};
 
 var JSXHeaderElement = React.createElement(
   "header",
   { className: "header" },
-  React.createElement(
-    "h1",
-    null,
-    "Hello from JSX!"
-  ),
+  React.createElement(Heading, { title: "React" }),
+  React.createElement(Heading, { title: "Second" }),
   React.createElement(
     "h2",
     null,
