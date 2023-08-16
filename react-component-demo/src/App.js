@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
          <h1>React Demo</h1>
-        <Counter/>
+        <Counter canReset/>
                <Timer start={5}/>
       <MovieList movies={movies} />
     </div>
