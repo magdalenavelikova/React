@@ -1,4 +1,5 @@
 import "./App.css";
+import Counter from "./components/Counter";
 
 import MovieList from "./components/MovieList";
 import Timer from "./components/Timer";
@@ -11,8 +12,9 @@ function App() {
   ];
   return (
     <div className="App">
-        <h1>React Demo</h1>
-        <Timer start={5}/>
+         <h1>React Demo</h1>
+        <Counter/>
+               <Timer start={5}/>
       <MovieList movies={movies} />
     </div>
   );

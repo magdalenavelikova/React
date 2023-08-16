@@ -8,5 +8,6 @@ export default function Timer(props) {
     setSeconds((state) => state + 1);
   }, 1000);
 
-  return <div>Time: {seconds} s</div>;
+  return <div>
+    <h2>Timer</h2>Time: {seconds} s</div>;
 }
