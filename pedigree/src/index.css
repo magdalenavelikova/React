@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+.App {
+  display: flex;
+  flex-direction: row;
+}
+
+/* this class is exposed by the react-d3 package I'm using */
+.path {
+  stroke-width: 5;
+  fill: #797a7a;
+}
+
+#node.currentlySelected {
+  /* background-color: #97fbb6; */
+  border: 10px solid #331a05;
+}
+
+#node:focus-visible {
+  border: 20px solid #97fbb6;
+  outline: none;
+}
+
+#dogDetails:focus-visible {
+  outline: 5px solid #97fbb6;
+  outline-offset: 5px;
+}
+
+Button.moveFocusButton {
+  color: #331a05;
+  font-weight: 600;
+  /* the below code hides the button offscreen */
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+Button.moveFocusButton:focus {
+  /* the below code displays the button, but only when it's tabbed to */
+  position: static;
+  width: auto;
+  height: auto;
+}
+
+Button.moveFocusButton:hover {
+  text-decoration: underline;
+}
