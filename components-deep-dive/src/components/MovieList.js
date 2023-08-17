@@ -1,7 +1,10 @@
 import React from "react";
 import Movie from "./Movie";
 
-export default function MovieList({ movies }) {
+export default function MovieList({ movies, onMovieDelete }) {
+
+
+
   /*{
      const firstMovie = movies[0];
  return (
@@ -37,7 +40,7 @@ export default function MovieList({ movies }) {
     <ul>
       {movies.map((movie) => (
         <li key={movie._id}>
-          <Movie {...movie} />
+          <Movie {...movie} onMovieDelete={onMovieDelete}/>
         </li>
       ))}
     </ul>
