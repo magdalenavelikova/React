@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import styles from './Movie.module.css';
 
 export default function Movie({
   _id,
@@ -22,7 +23,8 @@ export default function Movie({
   }, [selected]);
 
   return (
-    <article>
+    <article className={styles['movie-article']}>
+      <div className={styles['movie-wrapper']}>
       <h2>Title: {title} </h2>
       {selected && <h4>Selected</h4>}
       <h3>genre: {genre.name}</h3>
@@ -30,6 +32,8 @@ export default function Movie({
       <p>dailyRentalRate: {dailyRentalRate}</p>
       <button onClick={() => onMovieDelete(_id)}> Delete </button>
       <button onClick={() => onMovieSelect(_id)}> Select </button>
+      </div>
+     
     </article>
   );
 }
