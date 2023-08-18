@@ -16,7 +16,7 @@ export default function Movie({
     return () => {
       console.log(`Movie ${title} is unmounted`);
     };
-  }, []);
+  }, [title]);
 
   useEffect(() => {
     console.log(`Movie ${title} is updated`);
