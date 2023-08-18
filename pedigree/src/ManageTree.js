@@ -92,7 +92,7 @@ function navigationInfoPanelContent() {
   );
 }
 
-function aboutInfoPanelContent() {
+/*{function aboutInfoPanelContent() {
   return (
     <Box>
       <Text>
@@ -115,7 +115,7 @@ function aboutInfoPanelContent() {
       </Text>
     </Box>
   );
-}
+}}*/
 
 export default function ManageTree({
   currentNode,
@@ -196,17 +196,7 @@ export default function ManageTree({
               }>
               {navigationInfoPanelContent()}
             </AccordionPanel>
-            <AccordionPanel
-              label={
-                <Heading
-                  level="2"
-                  size="small"
-                  margin={{ top: "small", bottom: "xsmall" }}>
-                  About
-                </Heading>
-              }>
-              {aboutInfoPanelContent()}
-            </AccordionPanel>
+       
           </Accordion>
         </Box>
       </Box>

@@ -21,7 +21,7 @@ body {
 
 #node.currentlySelected {
   /* background-color: #97fbb6; */
-  border: 10px solid #331a05;
+  border: 10px solid grey;
 }
 
 #node:focus-visible {
@@ -35,7 +35,7 @@ body {
 }
 
 Button.moveFocusButton {
-  color: #331a05;
+  color: lightgray;
   font-weight: 600;
   /* the below code hides the button offscreen */
   position: absolute;
