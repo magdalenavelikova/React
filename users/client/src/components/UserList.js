@@ -1,5 +1,6 @@
-import UserDetails from './UserDetails';
-export default function UserList() {
+import User from "./User";
+
+export default function UserList({users}) {
   return (
     <div className='table-wrapper'>
       <table className='table'>
@@ -90,7 +91,11 @@ export default function UserList() {
           </tr>
         </thead>
         <tbody>
-          <UserDetails />
+        {users.map((u) => 
+          <User key={u._id}  {...u} />
+        )}
+       
+         
         </tbody>
       </table>
     </div>
