@@ -1,11 +1,11 @@
-import * as userService from "./services/userService";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import { Fragment, useEffect,useState } from "react";
-import Search from "./components/Search";
-import UserList from "./components/UserList";
-import NewUser from "./components/NewUser";
-import "./App.css";
+import * as userService from './services/userService';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import { Fragment, useEffect,useState } from 'react';
+import Search from './components/Search';
+import UserList from './components/UserList';
+import NewUser from './components/NewUser';
+import './App.css';
 function App() {
 const[users,setUsers]=useState([]);
 
@@ -16,7 +16,7 @@ const[users,setUsers]=useState([]);
        setUsers(u);
       })
       .catch((err) => {
-        console.log("Error: " + err);
+        console.log('Error: ' + err);
       });
   }, []);
   return (

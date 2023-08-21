@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 const baseUrl = 'http://localhost:3005/api/users';
 
@@ -9,5 +9,13 @@ export const getAll=async()=>{
 
     return result.users;
 
+};
+
+export const getById = async(userId)=>{
+    const response= await fetch(`${baseUrl}/${userId}`);
+    const result= await response.json();
+    console.log(result);
+
+    return result.user;
 };
 
