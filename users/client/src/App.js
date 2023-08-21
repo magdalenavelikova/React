@@ -1,11 +1,11 @@
-import * as userService from "./services/userService";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import { Fragment, useEffect, useState } from "react";
-import Search from "./components/Search";
-import UserList from "./components/UserList";
+import * as userService from './services/userService';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import { Fragment, useEffect, useState } from 'react';
+import Search from './components/Search';
+import UserList from './components/UserList';
 
-import "./App.css";
+import './App.css';
 function App() {
   const [users, setUsers] = useState([]);
 
@@ -20,15 +20,14 @@ function App() {
       setUsers((state) => [...state, createdUser]);
     }
   };
+
   const onUserEdit = async (userId, e) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
     const { country, city, street, streetNumber, ...userData } = data;
     userData.address = { country, city, street, streetNumber };
     userData._id = userId;
-    console.log('editedData: '+userData);
     await userService.editUser(userData);
   };
 
@@ -44,7 +43,7 @@ function App() {
         setUsers(u);
       })
       .catch((err) => {
-        console.log("Error: " + err);
+        console.log('Error: ' + err);
       });
   }, []);
 
@@ -55,7 +54,7 @@ function App() {
         setUsers(u);
       })
       .catch((err) => {
-        console.log("Error: " + err);
+        console.log('Error: ' + err);
       });
   }, [onUserEdit]);
   return (
