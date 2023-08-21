@@ -11,9 +11,13 @@ export default function UserList({ users }) {
       setSelectedUser(user);
     
   };
+  const onCloseClick = () => {
+         setSelectedUser(null);
+    
+  };
   return (
     <>
-      {selectedUser && <UserDetails {...selectedUser} onInfoClick={onInfoClick} />}
+      {selectedUser && <UserDetails {...selectedUser} onCloseClick={onCloseClick} />}
       <div className='table-wrapper'>
         <table className='table'>
           <thead>

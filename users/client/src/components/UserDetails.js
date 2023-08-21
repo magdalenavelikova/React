@@ -8,7 +8,7 @@ export default function UserDetails({
   phoneNumber,
   createdAt,
   updatedAt,
-  onInfoClick,
+  onCloseClick,
   address,
 }) {
   return (
@@ -18,7 +18,7 @@ export default function UserDetails({
         <div className='detail-container'>
           <header className='headers'>
             <h2>User Detail</h2>
-            <button className='btn close' onClick={() => onInfoClick("_")}>
+            <button className='btn close' onClick={() => onCloseClick()}>
               <svg
                 aria-hidden='true'
                 focusable='false'
