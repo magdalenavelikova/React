@@ -1,6 +1,5 @@
 export default function CreateUser({
   onCloseClick,
-
   onUserCreate,
 }) {
   return (

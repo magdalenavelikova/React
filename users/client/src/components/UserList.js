@@ -7,10 +7,12 @@ import * as userService from "../services/userService";
 import DeleteUser from "./DeleteUser";
 import EditUser from "./EditUser";
 
-export default function UserList(
-  { users, 
-  onUserCreate, 
-  onUserDelete, }) {
+export default function UserList({
+  users,
+  onUserCreate,
+  onUserDelete,
+  onUserEdit,
+}) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [newUserShow, setNewUserShow] = useState(false);
   const [deleteUserShow, setDeleteUserShow] = useState(false);
@@ -20,14 +22,13 @@ export default function UserList(
     setSelectedUser(user);
   };
 
-  const onEditClick= async (userId)=>{
+  const onEditClick = async (userId) => {
     const user = await userService.getById(userId);
     console.log(user);
     setSelectedUser(user);
-
   };
   const onDeleteClick = (userId) => {
-       setDeleteUserShow(userId);
+    setDeleteUserShow(userId);
   };
   const onCloseClick = () => {
     setSelectedUser(null);
@@ -40,6 +41,10 @@ export default function UserList(
   const onUserCreateHandler = (e) => {
     onUserCreate(e);
     setNewUserShow(false);
+  };
+  const onUserEditHandler = (e) => {
+    onUserEdit(selectedUser._id,e);
+    setSelectedUser(null);
   };
   const onUserDeleteHandler = () => {
     onUserDelete(deleteUserShow);
@@ -55,12 +60,10 @@ export default function UserList(
           onUserCreate={onUserCreateHandler}
         />
       )}
-       {selectedUser && (
-        <EditUser
-          {...selectedUser}
-          onCloseClick={onCloseClick}
-         
-        />
+      {selectedUser && (
+        <EditUser 
+        {...selectedUser} 
+        onCloseClick={onCloseClick} onUserEdit={onUserEditHandler} />
       )}
       {deleteUserShow && (
         <DeleteUser

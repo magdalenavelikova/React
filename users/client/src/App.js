@@ -10,7 +10,6 @@ function App() {
   const [users, setUsers] = useState([]);
 
   const onUserCreate = async (e) => {
-    e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
     const { country, city, street, streetNumber, ...userData } = data;
@@ -18,15 +17,24 @@ function App() {
 
     const createdUser = await userService.create(userData);
     if (createdUser) {
-      setUsers(state=>[...state,createdUser]);
+      setUsers((state) => [...state, createdUser]);
     }
-    
+  };
+  const onUserEdit = async (userId, e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+    const { country, city, street, streetNumber, ...userData } = data;
+    userData.address = { country, city, street, streetNumber };
+    userData._id = userId;
+    console.log('editedData: '+userData);
+    await userService.editUser(userData);
   };
 
   const onUserDelete = async (userId) => {
-   await userService.remove(userId);
-   setUsers(state => state.filter(u=>u.Id!==userId));
-       
+    await userService.remove(userId);
+    setUsers((state) => state.filter((u) => u.Id !== userId));
   };
 
   useEffect(() => {
@@ -39,6 +47,17 @@ function App() {
         console.log("Error: " + err);
       });
   }, []);
+
+  useEffect(() => {
+    userService
+      .getAll()
+      .then((u) => {
+        setUsers(u);
+      })
+      .catch((err) => {
+        console.log("Error: " + err);
+      });
+  }, [onUserEdit]);
   return (
     //<></> without import Fragment;
     <Fragment>
@@ -47,10 +66,12 @@ function App() {
       <main className='main'>
         <section className='card users-container'>
           <Search />
-          <UserList users={users} 
-          onUserCreate={onUserCreate} 
-          onUserDelete={onUserDelete}
-           />
+          <UserList
+            users={users}
+            onUserCreate={onUserCreate}
+            onUserDelete={onUserDelete}
+            onUserEdit={onUserEdit}
+          />
         </section>
       </main>
 

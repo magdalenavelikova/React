@@ -45,3 +45,18 @@ export const remove = async(userId)=>{
        return result;
  
 };
+export const editUser =async(userData)=>{
+
+    const response=await fetch(`${baseUrl}/${userData._id}`,{
+        method:'PUT',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(userData),
+
+    } );
+    const result= await response.json();
+    
+       return result.user;
+   
+};
