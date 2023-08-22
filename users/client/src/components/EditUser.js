@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function EditUser({
   _id,
   firstName,
@@ -9,6 +11,19 @@ export default function EditUser({
   onCloseClick,
   onUserEdit,
 }) {
+  const [formValues, setFormValues] = useState({
+    firstName,
+    lastName,
+    email,
+    imageUrl,
+    phoneNumber,
+    ...address,
+  });
+
+  const onChangeHandler = (e) => {
+    setFormValues((state) => ({ ...state, [e.target.name]: e.target.value }));
+  };
+
   return (
     <div className='overlay'>
       <div className='backdrop' onClick={onCloseClick}></div>
@@ -44,12 +59,15 @@ export default function EditUser({
                     id='firstName'
                     name='firstName'
                     type='text'
-                    defaultValue={firstName}
+                    value={formValues.firstName}
+                    onChange={onChangeHandler}
                   />
                 </div>
-                <p className='form-error'>
-                  First name should be at least 3 characters long!
-                </p>
+               
+                    <p className='form-error'>
+                      First name should be at least 3 characters long!
+                    </p>
+                  
               </div>
               <div className='form-group'>
                 <label htmlFor='lastName'>Last name</label>
@@ -61,12 +79,15 @@ export default function EditUser({
                     id='lastName'
                     name='lastName'
                     type='text'
-                    defaultValue={lastName}
+                    value={formValues.lastName}
+                    onChange={onChangeHandler}
                   />
                 </div>
-                <p className='form-error'>
-                  Last name should be at least 3 characters long!
-                </p>
+               
+                    <p className='form-error'>
+                      Last name should be at least 3 characters long!
+                    </p>
+                  
               </div>
             </div>
 
@@ -81,7 +102,8 @@ export default function EditUser({
                     id='email'
                     name='email'
                     type='text'
-                    defaultValue={email}
+                    value={formValues.email}
+                    onChange={onChangeHandler}
                   />
                 </div>
                 <p className='form-error'>Email is not valid!</p>
@@ -96,7 +118,8 @@ export default function EditUser({
                     id='phoneNumber'
                     name='phoneNumber'
                     type='text'
-                    defaultValue={phoneNumber}
+                    value={formValues.phoneNumber}
+                    onChange={onChangeHandler}
                   />
                 </div>
                 <p className='form-error'>Phone number is not valid!</p>
@@ -113,7 +136,8 @@ export default function EditUser({
                   id='imageUrl'
                   name='imageUrl'
                   type='text'
-                  defaultValue={imageUrl}
+                  value={formValues.imageUrl}
+                  onChange={onChangeHandler}
                 />
               </div>
               <p className='form-error'>ImageUrl is not valid!</p>
@@ -130,7 +154,8 @@ export default function EditUser({
                     id='country'
                     name='country'
                     type='text'
-                    defaultValue={address.country}
+                    value={formValues.country}
+                    onChange={onChangeHandler}
                   />
                 </div>
                 <p className='form-error'>
@@ -147,7 +172,8 @@ export default function EditUser({
                     id='city'
                     name='city'
                     type='text'
-                    defaultValue={address.city}
+                    value={formValues.city}
+                    onChange={onChangeHandler}
                   />
                 </div>
                 <p className='form-error'>
@@ -167,7 +193,8 @@ export default function EditUser({
                     id='street'
                     name='street'
                     type='text'
-                    defaultValue={address.street}
+                    value={formValues.street}
+                    onChange={onChangeHandler}
                   />
                 </div>
                 <p className='form-error'>
@@ -184,7 +211,8 @@ export default function EditUser({
                     id='streetNumber'
                     name='streetNumber'
                     type='text'
-                    defaultValue={address.streetNumber}
+                    value={formValues.streetNumber}
+                    onChange={onChangeHandler}
                   />
                 </div>
                 <p className='form-error'>
