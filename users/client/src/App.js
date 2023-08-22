@@ -98,6 +98,16 @@ function App() {
         console.log('Error: ' + err);
       });
   }, []);
+  useEffect(() => {
+    userService
+      .getAll()
+      .then((u) => {
+        setUsers(u);
+      })
+      .catch((err) => {
+        console.log('Error: ' + err);
+      });
+  }, [onUserEdit]);
 
 
   return (
