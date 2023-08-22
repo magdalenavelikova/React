@@ -1,8 +1,12 @@
 export default function CreateUser({
   onCloseClick,
   onUserCreate,
+  formValues,
+  onFormChangeHandler,
+  onFormValidate,
+  formErrors,
 }) {
-  return (
+    return (
     <div className='overlay'>
       <div className='backdrop'></div>
       <div className='modal'>
@@ -33,11 +37,18 @@ export default function CreateUser({
                   <span>
                     <i className='fa-solid fa-user'></i>
                   </span>
-                  <input id='firstName' name='firstName' type='text' />
+                  <input
+                    id='firstName'
+                    name='firstName'
+                    type='text'
+                    value={formValues.firstName}
+                    onChange={onFormChangeHandler}
+                    onBlur={onFormValidate}
+                  />
                 </div>
-                <p className='form-error'>
-                  First name should be at least 3 characters long!
-                </p>
+                {formErrors.firstName && (
+                  <p className='form-error'>{formErrors.firstName}</p>
+                )}
               </div>
               <div className='form-group'>
                 <label htmlFor='lastName'>Last name</label>
@@ -45,11 +56,18 @@ export default function CreateUser({
                   <span>
                     <i className='fa-solid fa-user'></i>
                   </span>
-                  <input id='lastName' name='lastName' type='text' />
+                  <input
+                    id='lastName'
+                    name='lastName'
+                    type='text'
+                    value={formValues.lastName}
+                    onChange={onFormChangeHandler}
+                    onBlur={onFormValidate}
+                  />
                 </div>
-                <p className='form-error'>
-                  Last name should be at least 3 characters long!
-                </p>
+                {formErrors.lastName && (
+                  <p className='form-error'>{formErrors.lastName}</p>
+                )}
               </div>
             </div>
 
@@ -60,7 +78,14 @@ export default function CreateUser({
                   <span>
                     <i className='fa-solid fa-envelope'></i>
                   </span>
-                  <input id='email' name='email' type='text' />
+                  <input
+                    id='email'
+                    name='email'
+                    type='text'
+                    value={formValues.email}
+                    onChange={onFormChangeHandler}
+                    onBlur={onFormValidate}
+                  />
                 </div>
                 <p className='form-error'>Email is not valid!</p>
               </div>
@@ -70,7 +95,14 @@ export default function CreateUser({
                   <span>
                     <i className='fa-solid fa-phone'></i>
                   </span>
-                  <input id='phoneNumber' name='phoneNumber' type='text' />
+                  <input
+                    id='phoneNumber'
+                    name='phoneNumber'
+                    type='text'
+                    value={formValues.phoneNumber}
+                    onChange={onFormChangeHandler}
+                    onBlur={onFormValidate}
+                  />
                 </div>
                 <p className='form-error'>Phone number is not valid!</p>
               </div>
@@ -82,7 +114,14 @@ export default function CreateUser({
                 <span>
                   <i className='fa-solid fa-image'></i>
                 </span>
-                <input id='imageUrl' name='imageUrl' type='text' />
+                <input
+                  id='imageUrl'
+                  name='imageUrl'
+                  type='text'
+                  value={formValues.imageUrl}
+                  onChange={onFormChangeHandler}
+                  onBlur={onFormValidate}
+                />
               </div>
               <p className='form-error'>ImageUrl is not valid!</p>
             </div>
@@ -94,11 +133,18 @@ export default function CreateUser({
                   <span>
                     <i className='fa-solid fa-map'></i>
                   </span>
-                  <input id='country' name='country' type='text' />
+                  <input
+                    id='country'
+                    name='country'
+                    type='text'
+                    value={formValues.country}
+                    onChange={onFormChangeHandler}
+                    onBlur={onFormValidate}
+                  />
                 </div>
-                <p className='form-error'>
-                  Country should be at least 2 characters long!
-                </p>
+                {formErrors.country && (
+                  <p className='form-error'>{formErrors.country}</p>
+                )}
               </div>
               <div className='form-group'>
                 <label htmlFor='city'>City</label>
@@ -106,11 +152,18 @@ export default function CreateUser({
                   <span>
                     <i className='fa-solid fa-city'></i>
                   </span>
-                  <input id='city' name='city' type='text' />
+                  <input
+                    id='city'
+                    name='city'
+                    type='text'
+                    value={formValues.city}
+                    onChange={onFormChangeHandler}
+                    onBlur={onFormValidate}
+                  />
                 </div>
-                <p className='form-error'>
-                  City should be at least 3 characters long!
-                </p>
+                {formErrors.city && (
+                  <p className='form-error'>{formErrors.city}</p>
+                )}
               </div>
             </div>
 
@@ -121,11 +174,18 @@ export default function CreateUser({
                   <span>
                     <i className='fa-solid fa-map'></i>
                   </span>
-                  <input id='street' name='street' type='text' />
+                  <input
+                    id='street'
+                    name='street'
+                    type='text'
+                    value={formValues.street}
+                    onChange={onFormChangeHandler}
+                    onBlur={onFormValidate}
+                  />
                 </div>
-                <p className='form-error'>
-                  Street should be at least 3 characters long!
-                </p>
+                {formErrors.street && (
+                  <p className='form-error'>{formErrors.street}</p>
+                )}
               </div>
               <div className='form-group'>
                 <label htmlFor='streetNumber'>Street number</label>
@@ -133,7 +193,14 @@ export default function CreateUser({
                   <span>
                     <i className='fa-solid fa-house-chimney'></i>
                   </span>
-                  <input id='streetNumber' name='streetNumber' type='text' />
+                  <input
+                    id='streetNumber'
+                    name='streetNumber'
+                    type='text'
+                    value={formValues.streetNumber}
+                    onChange={onFormChangeHandler}
+                    onBlur={onFormValidate}
+                  />
                 </div>
                 <p className='form-error'>
                   Street number should be a positive number!
@@ -144,7 +211,11 @@ export default function CreateUser({
               <button id='action-save' className='btn' type='submit'>
                 Save
               </button>
-              <button id='action-cancel' className='btn' type='button'>
+              <button
+                id='action-cancel'
+                className='btn'
+                type='button'
+                onClick={onCloseClick}>
                 Cancel
               </button>
             </div>

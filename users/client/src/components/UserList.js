@@ -12,10 +12,17 @@ export default function UserList({
   onUserCreate,
   onUserDelete,
   onUserEdit,
+  formValues,
+  onFormChangeHandler,
+  onFormValidate,
+  formErrors,
+
+
 }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [newUserShow, setNewUserShow] = useState(false);
   const [deleteUserShow, setDeleteUserShow] = useState(false);
+ 
   const onInfoClick = async (userId) => {
     // const user = users.find((u) => u._id === userId);
     const user = await userService.getById(userId);
@@ -174,9 +181,13 @@ export default function UserList({
       </div>
       <NewUserButton onAddNewUserClick={onAddNewUserClick} />
       {newUserShow && (
-        <CreateUser
+        <CreateUser formValues={formValues}
           onUserCreate={onUserCreateHandler}
           onCloseClick={onCloseClick}
+          onFormChangeHandler={onFormChangeHandler}
+          onFormValidate={onFormValidate}
+          formErrors={formErrors}
+
         />
       )}
     </>
