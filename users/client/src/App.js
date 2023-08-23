@@ -1,23 +1,23 @@
-import * as userService from './services/userService';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import { Fragment, useEffect, useState } from 'react';
-import Search from './components/Search';
-import UserList from './components/UserList';
+import * as userService from "./services/userService";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import { Fragment, useEffect, useState } from "react";
+import Search from "./components/Search";
+import UserList from "./components/UserList";
 
-import './App.css';
+import "./App.css";
 
 function App() {
-  const[formValues,setFormValues]=useState({   
-      firstName:'',
-      lastName:'',
-      email:'',
-      imageUrl:'',
-      phoneNumber:'',
-      country:'',
-      city:'',
-      street:'',
-      streetNumber:'',    
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    imageUrl: "",
+    phoneNumber: "",
+    country: "",
+    city: "",
+    street: "",
+    streetNumber: "",
   });
 
   const onFormChangeHandler = (e) => {
@@ -25,35 +25,35 @@ function App() {
   };
 
   const [formErrors, setFormErrors] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    imageUrl: '',
-    phoneNumber: '',
-    country: '',
-    city: '',
-    street: '',
-    streetNumber: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    imageUrl: "",
+    phoneNumber: "",
+    country: "",
+    city: "",
+    street: "",
+    streetNumber: "",
   });
 
   const onFormValidate = (e) => {
     const value = e.target.value;
     const targetName = e.target.name;
     let errors = {};
-    if (targetName === 'firstName'  && value.length < 3) {
-      errors.firstName = 'The input should be at least 3 characters long!';
+    if (targetName === "firstName" && value.length < 3) {
+      errors.firstName = "The input should be at least 3 characters long!";
     }
-     if (targetName === 'lastName'  && value.length < 3) {
-      errors.lastName = 'The input should be at least 3 characters long!';
+    if (targetName === "lastName" && value.length < 3) {
+      errors.lastName = "The input should be at least 3 characters long!";
     }
-     if (targetName === 'city'  && value.length < 3) {
-      errors.city = 'The input should be at least 3 characters long!';
+    if (targetName === "city" && value.length < 3) {
+      errors.city = "The input should be at least 3 characters long!";
     }
-    if (targetName === 'country'  && value.length < 3) {
-      errors.country = 'The input should be at least 3 characters long!';
+    if (targetName === "country" && value.length < 3) {
+      errors.country = "The input should be at least 3 characters long!";
     }
-    if (targetName === 'street'  && value.length < 3) {
-      errors.street = 'The input should be at least 3 characters long!';
+    if (targetName === "street" && value.length < 3) {
+      errors.street = "The input should be at least 3 characters long!";
     }
     //setErrors((state) => ({ ...state, [e.target.targetName]: error }));
     setFormErrors(errors);
@@ -80,7 +80,13 @@ function App() {
     const { country, city, street, streetNumber, ...userData } = data;
     userData.address = { country, city, street, streetNumber };
     userData._id = userId;
-    await userService.editUser(userData);
+    const editedUser = await userService.editUser(userData);
+    
+    if (editedUser) {
+      setUsers((state) =>
+      state.map(u => u._id===editedUser._id ? editedUser : u)
+      );
+    }
   };
 
   const onUserDelete = async (userId) => {
@@ -95,10 +101,10 @@ function App() {
         setUsers(u);
       })
       .catch((err) => {
-        console.log('Error: ' + err);
+        console.log("Error: " + err);
       });
   }, []);
-  useEffect(() => {
+  /*{ useEffect(() => {
     userService
       .getAll()
       .then((u) => {
@@ -107,8 +113,7 @@ function App() {
       .catch((err) => {
         console.log('Error: ' + err);
       });
-  }, [onUserEdit]);
-
+  }, [onUserEdit]);}*/
 
   return (
     //<></> without import Fragment;
