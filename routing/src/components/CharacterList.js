@@ -1,7 +1,7 @@
-
 import { useEffect, useState } from "react";
-import styles from './Navigation.module.css';
+
 import CharacterListItem from "./CharacterListItem";
+import Navigation from "./Navigation";
 const baseUrl = "https://swapi.dev/api/people";
 
 export default function CharacterList() {
@@ -16,15 +16,11 @@ export default function CharacterList() {
   return (
     <>
       <h1>Star Wars Characters</h1>
-      <nav className={styles.navigation}>
-      <ul>
-        {characters.map((x) => (
-       
-           <CharacterListItem key={x.url}{...x}/>
-          
-        ))}
-      </ul>
-      </nav>
+     <Navigation>
+          {characters.map((x) => (
+            <CharacterListItem key={x.url} {...x} />
+          ))}
+  </Navigation>
     </>
   );
 }
