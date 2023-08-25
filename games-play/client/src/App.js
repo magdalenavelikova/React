@@ -1,12 +1,12 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { Catalogue } from "./components/Catalogue";
 import { CreatePage } from "./components/CreatePage";
-import { Details, DetailsPage } from "./components/DetailsPage";
+import {  DetailsPage } from "./components/DetailsPage";
 import { EditPage } from "./components/EditPage";
 import { Header } from "./components/Header";
 import { HomePage } from "./components/HomePage";
 import { LoginPage } from "./components/LoginPage";
-import { PageForRegistration, RegisterPage } from "./components/RegisterPage";
+import { RegisterPage } from "./components/RegisterPage";
 import { useEffect, useState } from "react";
 import * as gameService from "./services/gameService";
 function App() {
@@ -22,7 +22,7 @@ function App() {
   const onCreateGameSubmitHandler = async (data) => {
     const newGame = gameService.create(data);
     if (newGame) {
-      setGames((state) => [...state, newGame]);
+      setGames((state) => [...state, data]);
       navigate("/catalogue");
     }
   };
