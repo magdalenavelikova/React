@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "./components/Header";
 import { ToDoList } from "./components/ToDoList";
-
+import { ToDoContext } from "./contexts/ToDoContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AddToDoModal } from "./components/AddToDoModal";
 const baseUrl = "http://localhost:3030/jsonstore/todos";
@@ -35,18 +35,21 @@ function App() {
   };
   const onToDoDeleteClick = async (todoId) => {
    
-    const result =await fetch(`${baseUrl}/${todoId}`, { method: "DELETE" });
+    await fetch(`${baseUrl}/${todoId}`, { method: "DELETE" });
    
     setTasks((state) => state.filter((x) => x._id !== todoId));
   };
 
+  const contextValue= {onToDoDeleteClick};
   return (
+    <ToDoContext.Provider value={contextValue}>
+
     <div>
       <Header />
       <ToDoList
         tasks={tasks}
         onToDoAddClick={onToDoAddClick}
-        onToDoDeleteClick={onToDoDeleteClick}
+   
       />
       <AddToDoModal
         onToDoAddClose={onToDoAddClose}
@@ -54,6 +57,8 @@ function App() {
         showAddToDo={showAddToDo}
       />
     </div>
+          
+    </ToDoContext.Provider>
   );
 }
 
