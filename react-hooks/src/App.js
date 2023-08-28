@@ -5,6 +5,7 @@ import { ToDoContext } from "./contexts/ToDoContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AddToDoModal } from "./components/AddToDoModal";
 const baseUrl = "http://localhost:3030/jsonstore/todos";
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [showAddToDo, setShowAddToDo] = useState(false);
@@ -21,24 +22,43 @@ function App() {
     const response = await fetch(baseUrl, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(values),
+      body: JSON.stringify({...values, isCompleted: false})
     });
+
     const result = await response.json();
     setTasks([...tasks, result]);
     setShowAddToDo(false);
   };
+
   const onToDoAddClick = () => {
     setShowAddToDo(true);
   };
+
   const onToDoAddClose = () => {
     setShowAddToDo(false);
   };
+
   const onToDoDeleteClick = async (todoId) => {
     await fetch(`${baseUrl}/${todoId}`, { method: "DELETE" });
 
     setTasks((state) => state.filter((x) => x._id !== todoId));
   };
+
   const onToDoClick = async (todoId) => {
+    const todo=tasks.find(x=>x._id===todoId);
+   /* await fetch(`${baseUrl}/${todoId}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({isCompleted: !todo.isCompleted})
+    });*/ 
+    await fetch(`${baseUrl}/${todoId}`, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        ...todo,
+         isCompleted: !todo.isCompleted,
+        })
+    });
     setTasks((state) =>
       state.map((x) =>
         x._id === todoId ? { ...x, isCompleted: !x.completed } : x
