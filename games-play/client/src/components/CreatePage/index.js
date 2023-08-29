@@ -1,22 +1,16 @@
 import { useState } from "react";
+import { useForm } from "../../hooks/useForm";
 
 export const CreatePage = ({onCreateGameSubmitHandler,}) => {
-  const [values, setValues] = useState({
+  const {formValues,onChangeHandler,onSubmit} = useForm({
     title: "",
     category: "",
     maxLevel: "",
     imageUrl: "",
     summary: "",
-  });
+  },onCreateGameSubmitHandler);
 
-  const onChangeHandler = (e) => {
-    setValues((state) => ({ ...state, [e.target.name]: e.target.value }));
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    onCreateGameSubmitHandler(values);
-  };
+ 
 
   return (
     <>
@@ -31,7 +25,7 @@ export const CreatePage = ({onCreateGameSubmitHandler,}) => {
               id='title'
               name='title'
               placeholder='Enter game title...'
-              value={values.title}
+              value={formValues.title}
             />
 
             <label htmlFor='category'>Category:</label>
@@ -41,7 +35,7 @@ export const CreatePage = ({onCreateGameSubmitHandler,}) => {
               id='category'
               name='category'
               placeholder='Enter game category...'
-              value={values.category}
+              value={formValues.category}
             />
 
             <label htmlFor='levels'>MaxLevel:</label>
@@ -52,7 +46,7 @@ export const CreatePage = ({onCreateGameSubmitHandler,}) => {
               name='maxLevel'
               min='1'
               placeholder='1'
-              value={values.maxLevel}
+              value={formValues.maxLevel}
             />
 
             <label htmlFor='game-img'>Image:</label>
@@ -62,7 +56,7 @@ export const CreatePage = ({onCreateGameSubmitHandler,}) => {
               id='imageUrl'
               name='imageUrl'
               placeholder='Upload a photo...'
-              value={values.imageUrl}
+              value={formValues.imageUrl}
             />
 
             <label htmlFor='summary'>Summary:</label>
@@ -70,7 +64,7 @@ export const CreatePage = ({onCreateGameSubmitHandler,}) => {
               onChange={onChangeHandler}
               name='summary'
               id='summary'
-              value={values.summary}></textarea>
+              value={formValues.summary}></textarea>
             <input className='btn submit' type='submit' value='Create Game' />
           </div>
         </form>
