@@ -13,10 +13,10 @@ export const commentServiceFactory = (token) => {
   };
 
   const getAll = async (gameId) => {
-    //const query = encodeURIComponent(`?where=gameId%3D%22${gameId}%22`);
-    const query = `?where=gameId%3D%22${gameId}%22`;
-    console.log({gameId});
-    const result = await request.get(`${baseUrl}${query}`);
+    const query = encodeURIComponent(`gameId="${gameId}"`);
+    //const query = `?where=gameId%3D%22${gameId}%22`;
+    console.log({ gameId });
+    const result = await request.get(`${baseUrl}?where=${query}`);
     const comments = Object.values(result);
     console.log(comments);
     return comments;

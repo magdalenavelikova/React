@@ -4,7 +4,6 @@ import { commentServiceFactory } from "../../services/commentsService";
 import { useContext, useEffect, useState } from "react";
 import { useService } from "../../hooks/useService";
 import { AuthContext } from "../../contexts/AuthContext";
-import { EditPage } from "../EditPage";
 
 export const DetailsPage = () => {
   const { userId, token } = useContext(AuthContext);
