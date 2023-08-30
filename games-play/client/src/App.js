@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { gameServiceFactory } from "./services/gameServiceFactory";
 
 import { AuthProvider } from "./contexts/AuthContext";
+import { withAuth } from "./hoc/withAuth";
 
 function App() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ function App() {
     }
   };
 
- 
+ const EnhancedLogin=withAuth(LoginPage );
 
   return (
     <AuthProvider>
@@ -56,6 +57,7 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/login' element={<LoginPage />} />
+          {/*  <Route path='/login' element={<EnhancedLogin />} />*/}
             <Route path='/logout' element={<LogoutPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route

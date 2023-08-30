@@ -1,8 +1,8 @@
 import { useForm } from "../../hooks/useForm";
 import { gameServiceFactory } from "../../services/gameServiceFactory";
-import { AuthContext } from "../../contexts/AuthContext";
+
 import { useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useService } from "../../hooks/useService";
 
 export const EditPage = ({onGameEditSubmitHandler,}) => {
