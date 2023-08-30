@@ -8,7 +8,7 @@ export const RegisterPage = () => {
   const RegisterFormKeys = {
     Email: "email",
     Password: "password",
-    ConfirmPassword: "confirm-password",
+    ConfirmPassword: "confirmPassword",
   };
   const { formValues, onChangeHandler, onSubmit } = useForm(
     {

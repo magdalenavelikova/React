@@ -9,13 +9,16 @@ import { LoginPage } from "./components/LoginPage";
 import { LogoutPage } from "./components/LogoutPage";
 import { RegisterPage } from "./components/RegisterPage";
 import { useEffect, useState } from "react";
-import * as gameService from "./services/gameService";
-import * as authService from "./services/authService";
+import { gameServiceFactory } from "./services/gameServiceFactory";
+import { authServiceFactory } from "./services/authServiceFactory";
 import { AuthContext } from "./contexts/AuthContext";
+
 function App() {
   const navigate = useNavigate();
   const [games, setGames] = useState([]);
   const [auth, setAuth] = useState({});
+  const gameService = gameServiceFactory(auth.accessToken);
+  const authService = authServiceFactory(auth.accessToken);
 
   useEffect(() => {
     gameService.getAll().then((result) => {
@@ -56,17 +59,27 @@ function App() {
     }
   };
 
-  const onLogoutHandler =  () => {
-   /* const accessToken = auth.accessToken;
-    const result=await authService.logout(accessToken);
-    console.log(result);*/
+  const onLogoutHandler = async () => {
+    await authService.logout();
     setAuth({});
+  };
+
+  const onGameEditSubmitHandler = async (data) => {
+    const editedGame = await gameService.edit(data._id, data);
+    console.log(editedGame);
+    if (editedGame) {
+      setGames((state) =>
+        state.map((x) => (x._id === data._id ? editedGame : x))
+      );
+      navigate(`/catalogue/${data._id}`);
+    }
   };
 
   const context = {
     onRegisterSubmitHandler,
     onLoginSubmitHandler,
     onLogoutHandler,
+    onGameEditSubmitHandler,
     userId: auth._id,
     token: auth.accessToken,
     email: auth.email,
@@ -92,10 +105,15 @@ function App() {
                 />
               }
             />
+            <Route
+              path='/edit/:gameId'
+              element={
+                <EditPage onGameEditSubmitHandler={onGameEditSubmitHandler} />
+              }
+            />
             <Route path='/catalogue' element={<Catalogue games={games} />} />
             <Route path='/catalogue/:gameId' element={<DetailsPage />} />
           </Routes>
-          {/*<EditPage />      */}
         </main>
       </div>
     </AuthContext.Provider>

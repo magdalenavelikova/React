@@ -1,25 +1,45 @@
-import { useParams } from "react-router-dom";
-import * as gameService from "../../services/gameService";
-import * as commentService from "../../services/commentsService";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { gameServiceFactory } from "../../services/gameServiceFactory";
+import { commentServiceFactory } from "../../services/commentsService";
+import { useContext, useEffect, useState } from "react";
+import { useService } from "../../hooks/useService";
+import { AuthContext } from "../../contexts/AuthContext";
+import { EditPage } from "../EditPage";
 
 export const DetailsPage = () => {
+  const { userId, token } = useContext(AuthContext);
+
+  const commentService = commentServiceFactory(token);
   const { gameId } = useParams();
   const [game, setGame] = useState({});
   const [userName, setUserName] = useState("");
   const [comment, setComment] = useState("");
-  // const [comments, setComments] = useState([]);
-
+  const gameService = useService(gameServiceFactory);
+  const [comments, setComments] = useState([]);
+  const navigate = useNavigate();
   //in collection
-  /* useEffect(() => {
-    gameService.getById(gameId).then((result) => {
-      setGame(result);
-      return commentService.getAll(gameId);
-    }).then(result => {
-      setComments(result);
-    });
+  useEffect(() => {
+    gameService
+      .getById(gameId)
+      .then((result) => {
+        setGame(result);
+        return commentService.getAll(gameId);
+      })
+      .then((result) => {
+        setComments(result);
+      });
+  }, [gameId]);
 
-  }, [gameId]);*/
+  const onDeleteClick = async () => {
+
+    await gameService.remove(game._id);
+
+    navigate("/catalogue");
+  };
+  const onEditClick = () => {
+    
+    navigate(`/edit/${gameId}`);
+  };
 
   useEffect(() => {
     gameService.getById(gameId).then((result) => {
@@ -32,23 +52,25 @@ export const DetailsPage = () => {
 
   const onCommentChange = (e) => {
     setComment(e.target.value);
+    setComments((state) => ({ ...state, comment }));
   };
   const onCommentSubmit = (e) => {
     e.preventDefault();
     const data = { gameId, userName, comment };
-    // commentService.create(data);
-    const result = gameService.addComment(gameId, data);
+    const result = commentService.create(data);
+    //const result = gameService.addComment(gameId, data);
     setGame((state) => ({
       ...state,
       comments: { ...state.comments, [result._id]: result },
     }));
+    setComments((state) => ({ ...state, result }));
     setUserName("");
     setComment("");
   };
+  const isOwner = game._ownerId === userId;
 
   return (
     <>
-      {/*<!--Details Page-->*/}
       <section id='game-details'>
         <h1>Game Details</h1>
         <div className='info-section'>
@@ -77,14 +99,16 @@ export const DetailsPage = () => {
           </div>
 
           {/*<!-- Edit/Delete buttons ( Only htmlFor creator of this game )  -->*/}
-          <div className='buttons'>
-            <a href='#' className='button'>
-              Edit
-            </a>
-            <a href='#' className='button'>
-              Delete
-            </a>
-          </div>
+          {isOwner && (
+            <div className='buttons'>
+              <button className='button' onClick={onEditClick}>
+                Edit
+              </button>
+              <button className='button' onClick={onDeleteClick}>
+                Delete
+              </button>
+            </div>
+          )}
         </div>
 
         {/*<!-- Bonus -->*/}
