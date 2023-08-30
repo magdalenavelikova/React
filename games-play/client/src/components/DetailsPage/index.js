@@ -26,7 +26,7 @@ export const DetailsPage = () => {
         return commentService.getAll(gameId);
       })
       .then((result) => {
-        setComments(result);
+                setComments(result);
       });
   }, [gameId]);
 
@@ -41,28 +41,27 @@ export const DetailsPage = () => {
     navigate(`/edit/${gameId}`);
   };
 
-  useEffect(() => {
-    gameService.getById(gameId).then((result) => {
-      setGame(result);
-    });
-  }, [gameId]);
+  
+
   const onUserNameChange = (e) => {
     setUserName(e.target.value);
   };
 
   const onCommentChange = (e) => {
     setComment(e.target.value);
-    setComments((state) => ({ ...state, comment }));
+    //setComments((state) => ({ ...state, comment }));
   };
+
   const onCommentSubmit = (e) => {
     e.preventDefault();
     const data = { gameId, userName, comment };
+    console.log(data);
     const result = commentService.create(data);
     //const result = gameService.addComment(gameId, data);
-    setGame((state) => ({
+   /* setGame((state) => ({
       ...state,
       comments: { ...state.comments, [result._id]: result },
-    }));
+    }));*/
     setComments((state) => ({ ...state, result }));
     setUserName("");
     setComment("");
@@ -86,16 +85,16 @@ export const DetailsPage = () => {
           <div className='details-comments'>
             <h2>Comments:</h2>
             <ul>
-              {game.comments &&
-                Object.values(game.comments).map((x) => (
+              {comments.length!==0 &&
+               comments.map((x) => (
                   <li className='comment' key={x._id}>
                     <p>
-                      {x.userName}: {x.comment}
+                    {x.userName}   {x.comment}
                     </p>
                   </li>
                 ))}
             </ul>
-            {!game.comments && <p className='no-comment'>No comments.</p>}
+            {comments.length===0 && <p className='no-comment'>No comments.</p>}
           </div>
 
           {/*<!-- Edit/Delete buttons ( Only htmlFor creator of this game )  -->*/}

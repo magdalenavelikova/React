@@ -5,10 +5,10 @@ import { useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { useService } from "../../hooks/useService";
 
-export const EditPage = () => {
+export const EditPage = ({onGameEditSubmitHandler,}) => {
   const { gameId } = useParams();
   const gameService = useService(gameServiceFactory);
-  const { onGameEditSubmitHandler } = useContext(AuthContext);
+  
 
   useEffect(() => {
     gameService.getById(gameId).then((result) => {

@@ -10,16 +10,15 @@ import { LogoutPage } from "./components/LogoutPage";
 import { RegisterPage } from "./components/RegisterPage";
 import { useEffect, useState } from "react";
 import { gameServiceFactory } from "./services/gameServiceFactory";
-import { authServiceFactory } from "./services/authServiceFactory";
-import { AuthContext } from "./contexts/AuthContext";
+
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   const navigate = useNavigate();
   const [games, setGames] = useState([]);
-  const [auth, setAuth] = useState({});
-  const gameService = gameServiceFactory(auth.accessToken);
-  const authService = authServiceFactory(auth.accessToken);
-
+ 
+  const gameService = gameServiceFactory();//auth.accessToken
+  
   useEffect(() => {
     gameService.getAll().then((result) => {
       setGames(result);
@@ -33,36 +32,7 @@ function App() {
       navigate("/catalogue");
     }
   };
-  const onLoginSubmitHandler = async (data) => {
-    try {
-      const result = await authService.login(data);
-      setAuth(result);
-      navigate("/catalogue");
-    } catch (error) {
-      console.log("There is no such user!");
-    }
-    //  console.log(Object.fromEntries(new FormData(e.target)));
-  };
-
-  const onRegisterSubmitHandler = async (data) => {
-    const { confirmPassword, ...registerData } = data;
-    if (confirmPassword !== registerData.password) {
-      console.log("Paswords not match!");
-      return;
-    }
-    try {
-      const result = await authService.register(registerData);
-      setAuth(result);
-      navigate("/catalogue");
-    } catch (error) {
-      console.log("Error");
-    }
-  };
-
-  const onLogoutHandler = async () => {
-    await authService.logout();
-    setAuth({});
-  };
+  
 
   const onGameEditSubmitHandler = async (data) => {
     const editedGame = await gameService.edit(data._id, data);
@@ -75,19 +45,10 @@ function App() {
     }
   };
 
-  const context = {
-    onRegisterSubmitHandler,
-    onLoginSubmitHandler,
-    onLogoutHandler,
-    onGameEditSubmitHandler,
-    userId: auth._id,
-    token: auth.accessToken,
-    email: auth.email,
-    isAuthenticated: !!auth.accessToken,
-  };
+ 
 
   return (
-    <AuthContext.Provider value={context}>
+    <AuthProvider>
       <div id='box'>
         <Header />
 
@@ -116,7 +77,7 @@ function App() {
           </Routes>
         </main>
       </div>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
