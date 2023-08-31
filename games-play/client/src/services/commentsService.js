@@ -3,22 +3,19 @@ import { requestFactory } from "./requester";
 const baseUrl = "http://localhost:3030/data/comments";
 
 export const commentServiceFactory = (token) => {
-  const request = requestFactory(token);
+  const request = requestFactory();
 
-  const create = async (data) => {
-    const result = await request.post(baseUrl, data);
-    const comment = Object.values(result);
-    console.log(comment);
-    return comment;
+  const create = async (gameId, data) => {
+    const result = await request.post(baseUrl, { gameId, data });
+
+    return result;
   };
 
   const getAll = async (gameId) => {
-    const query = encodeURIComponent(`gameId="${gameId}"`);
-    //const query = `?where=gameId%3D%22${gameId}%22`;
-    console.log({ gameId });
-    const result = await request.get(`${baseUrl}?where=${query}`);
-    const comments = Object.values(result);
-    console.log(comments);
+    const searchQueryById = encodeURIComponent(`gameId="${gameId}"`);
+    const relationQuery = encodeURIComponent(`author=_ownerId`);
+    const result = await request.get(`${baseUrl}?where=${searchQueryById}&load=${relationQuery}:users`);
+    const comments = result;
     return comments;
   };
 

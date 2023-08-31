@@ -3,7 +3,7 @@ import { requestFactory } from "./requester";
 const baseUrl = "http://localhost:3030/data/games";
 
 export const gameServiceFactory = (token) => {
-  const request = requestFactory(token);
+  const request = requestFactory();
   const getAll = async () => {
     const result = await request.get(baseUrl);
     const games = Object.values(result);

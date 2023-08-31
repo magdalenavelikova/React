@@ -1,7 +1,8 @@
-
 const request = async (method, token, url, data) => {
   const options = {};
 
+  
+ 
   if (method !== "GET") {
     options.method = method;
     if (data) {
@@ -32,6 +33,16 @@ const request = async (method, token, url, data) => {
 };
 
 export const requestFactory = (token) => {
+
+  if (!token) {
+    const persistedAuthSerialized = localStorage.getItem("auth");
+   
+    if (persistedAuthSerialized) {
+      const auth = JSON.parse(persistedAuthSerialized);
+      token = auth.accessToken;
+    }
+  }
+
   return {
     get: request.bind(null, "GET", token),
     post: request.bind(null, "POST", token),
