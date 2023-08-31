@@ -26,7 +26,7 @@ export const DetailsPage = ({onDeleteGameHandler}) => {
         ...gameData,
         comments,
       };
-      console.log(gameState);
+    
       dispatch({ type: "GAME_FETCH", payload: gameState });
       // setGame(gameState);
     });

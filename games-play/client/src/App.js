@@ -17,19 +17,29 @@ import { AuthProvider } from "./contexts/AuthContext";
 function App() {
   const navigate = useNavigate();
   const [games, setGames] = useState([]);
+  const [latestGames, setLatestGames] = useState([]);
  
-  const gameService = gameServiceFactory();//auth.accessToken
+  const gameService = gameServiceFactory();
   
   useEffect(() => {
-    gameService.getAll().then((result) => {
-      setGames(result);
+    Promise.all([
+      gameService.getAll(),
+      gameService.getLatest(),
+    ])
+    .then(([games, latestGames]) => {
+      setGames(games);
+      setLatestGames(latestGames);
+      console.log(latestGames);
     });
+
+    
   }, []);
 
   const onCreateGameSubmitHandler = async (data) => {
     const newGame = gameService.create(data);
     if (newGame) {
       setGames((state) => [...state, data]);
+      setLatestGames((state) => [data,...state ]);
       navigate("/catalogue");
     }
   };
@@ -41,6 +51,9 @@ function App() {
       setGames((state) =>
         state.map((x) => (x._id === data._id ? editedGame : x))
       );
+      setLatestGames((state) =>
+      state.map((x) => (x._id === data._id ? editedGame : x))
+    );
       navigate(`/catalogue/${data._id}`);
     }
   };
@@ -59,7 +72,7 @@ function App() {
 
         <main id='main-content'>
           <Routes>
-            <Route path='/' element={<HomePage />} />
+            <Route path='/' element={<HomePage latestGames={latestGames} />} />
             <Route path='/login' element={<LoginPage />} />
           {/*  <Route path='/login' element={<EnhancedLogin />} />*/}
             <Route path='/logout' element={<LogoutPage />} />

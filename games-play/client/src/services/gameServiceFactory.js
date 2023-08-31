@@ -10,6 +10,14 @@ export const gameServiceFactory = (token) => {
     return games;
   };
 
+  const getLatest = async () => {
+    const query = encodeURIComponent('_createdOn desc');
+    ///data/games?sortBy=_createdOn%20desc&distinct=category
+    const result = await request.get(`${baseUrl}?sortBy=${query}&distinct=category`);
+    const latestGames = Object.values(result);
+    return latestGames;
+  };
+
   const create = async (gameData) => {
     const result = await request.post(baseUrl, gameData);
     return result;
@@ -38,7 +46,7 @@ export const gameServiceFactory = (token) => {
     getAll,
     create,
     getById,
-   
+   getLatest,
     remove,
     edit,
   };
