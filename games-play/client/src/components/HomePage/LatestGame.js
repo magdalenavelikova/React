@@ -11,7 +11,7 @@ export const LatestGames=( {
 
         <div className='game'>
         <div className='image-wrap'>
-          <img src={imageUrl} />
+          <img src={imageUrl} alt={title}/>
         </div>
         <h3>{title}</h3>
         <div className='rating'>

@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { gameServiceFactory } from "../../services/gameServiceFactory";
 import { commentServiceFactory } from "../../services/commentsService";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { useService } from "../../hooks/useService";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { AddComment } from "../AddComment";
