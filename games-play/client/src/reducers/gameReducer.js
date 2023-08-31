@@ -1,9 +1,9 @@
 export const gameReducer = (state, action) => {
     switch (action.type) {
       case "GAME_FETCH":
-        return action.game;
+        return Object.assign({},action.payload);
   
-      case "ADD_COMMENT":
+      case "COMMENT_ADD":
         return{
           ...state,
         comments: [

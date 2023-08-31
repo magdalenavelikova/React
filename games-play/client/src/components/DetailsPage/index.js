@@ -27,7 +27,7 @@ export const DetailsPage = () => {
         comments,
       };
       console.log(gameState);
-      dispatch({ type: "GAME_FETCH", game: gameState });
+      dispatch({ type: "GAME_FETCH", payload: gameState });
       // setGame(gameState);
     });
   }, [gameId]);
@@ -47,7 +47,7 @@ export const DetailsPage = () => {
     dispatch({
       type: "COMMENT_ADD",
       payload: result,
-      email,
+      email:email,
     });
 
     /*setGame((state) => ({
