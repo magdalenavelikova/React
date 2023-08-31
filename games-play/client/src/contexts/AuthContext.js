@@ -4,13 +4,12 @@ import { authServiceFactory } from "../services/authServiceFactory";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const AuthContext = createContext();
-export const AuthProvider = ({ children }) => {
 
-  const [auth, setAuth] = useLocalStorage('auth',{});
+export const AuthProvider = ({ children }) => {
+  const [auth, setAuth] = useLocalStorage("auth", {});
   const authService = authServiceFactory(auth.accessToken);
   const navigate = useNavigate();
   const onLoginSubmitHandler = async (data) => {
-
     try {
       const result = await authService.login(data);
       setAuth(result);
@@ -37,9 +36,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onLogoutHandler = async () => {
-    await authService.logout();
-    setAuth({});
+ 
+    try {
+     await authService.logout();
+      setAuth({});
+    } catch (error) {
+      console.log("Error");
+    }
   };
+
   const context = {
     onRegisterSubmitHandler,
     onLoginSubmitHandler,
@@ -56,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     </>
   );
 };
-export const useAuthContext=()=>{
-    const context=useContext(AuthContext);
-    return context;
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  return context;
 };

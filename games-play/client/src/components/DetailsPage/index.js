@@ -8,7 +8,7 @@ import { AddComment } from "../AddComment";
 
 import { gameReducer } from "../../reducers/gameReducer";
 
-export const DetailsPage = () => {
+export const DetailsPage = ({onDeleteGameHandler}) => {
   const { userId, isAuthenticated, email } = useAuthContext();
   const { gameId } = useParams();
   // const [game, setGame] = useState({});
@@ -34,7 +34,7 @@ export const DetailsPage = () => {
 
   const onDeleteClick = async () => {
     await gameService.remove(game._id);
-
+    onDeleteGameHandler(game._id);
     navigate("/catalogue");
   };
 

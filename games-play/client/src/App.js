@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { gameServiceFactory } from "./services/gameServiceFactory";
 
 import { AuthProvider } from "./contexts/AuthContext";
-import { withAuth } from "./hoc/withAuth";
+//import { withAuth } from "./hoc/withAuth";
 
 function App() {
   const navigate = useNavigate();
@@ -37,13 +37,17 @@ function App() {
 
   const onGameEditSubmitHandler = async (data) => {
     const editedGame = await gameService.edit(data._id, data);
-    console.log(editedGame);
-    if (editedGame) {
+        if (editedGame) {
       setGames((state) =>
         state.map((x) => (x._id === data._id ? editedGame : x))
       );
       navigate(`/catalogue/${data._id}`);
     }
+  };
+
+  const onDeleteGameHandler=(gameId)=>{
+    setGames((state) =>
+    state.filter(x=>x._id !== gameId)); 
   };
 
  //const EnhancedLogin=withAuth(LoginPage );
@@ -75,7 +79,7 @@ function App() {
               }
             />
             <Route path='/catalogue' element={<Catalogue games={games} />} />
-            <Route path='/catalogue/:gameId' element={<DetailsPage />} />
+            <Route path='/catalogue/:gameId' element={<DetailsPage onDeleteGameHandler={onDeleteGameHandler}/>} />
           </Routes>
         </main>
       </div>
