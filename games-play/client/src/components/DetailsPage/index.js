@@ -7,10 +7,12 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { AddComment } from "../AddComment";
 
 import { gameReducer } from "../../reducers/gameReducer";
+import { useGameContext } from "../../contexts/GameContext";
 
-export const DetailsPage = ({onDeleteGameHandler}) => {
+export const DetailsPage = () => {
   const { userId, isAuthenticated, email } = useAuthContext();
   const { gameId } = useParams();
+  const { onDeleteGameHandler } = useGameContext();
   // const [game, setGame] = useState({});
   const commentService = commentServiceFactory();
   const gameService = useService(gameServiceFactory);
@@ -26,7 +28,7 @@ export const DetailsPage = ({onDeleteGameHandler}) => {
         ...gameData,
         comments,
       };
-    
+
       dispatch({ type: "GAME_FETCH", payload: gameState });
       // setGame(gameState);
     });
@@ -47,7 +49,7 @@ export const DetailsPage = ({onDeleteGameHandler}) => {
     dispatch({
       type: "COMMENT_ADD",
       payload: result,
-      email:email,
+      email: email,
     });
 
     /*setGame((state) => ({

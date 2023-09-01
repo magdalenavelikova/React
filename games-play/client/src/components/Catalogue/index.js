@@ -1,6 +1,8 @@
+import { useGameContext } from "../../contexts/GameContext";
 import { CatalogueItem } from "./CatalogueItem";
 
-export const Catalogue = ({ games }) => {
+export const Catalogue = () => {
+  const{games}=useGameContext();
   return (
     <>
       {/*<!-- Catalogue -->*/}

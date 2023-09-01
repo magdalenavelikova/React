@@ -1,7 +1,8 @@
-
+import { useGameContext } from "../../contexts/GameContext";
 import { LatestGames } from "./LatestGame";
 
-export const HomePage = ({ latestGames }) => {
+export const HomePage = () => {
+  const { latestGames } = useGameContext();
   return (
     <>
       {/*<!--Home Page-->*/}

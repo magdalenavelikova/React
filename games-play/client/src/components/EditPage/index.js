@@ -4,21 +4,20 @@ import { gameServiceFactory } from "../../services/gameServiceFactory";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useService } from "../../hooks/useService";
+import { useGameContext } from "../../contexts/GameContext";
 
-export const EditPage = ({onGameEditSubmitHandler,}) => {
+export const EditPage = () => {
   const { gameId } = useParams();
   const gameService = useService(gameServiceFactory);
-  
-
+  const { onGameEditSubmitHandler } = useGameContext();
   useEffect(() => {
     gameService.getById(gameId).then((result) => {
       changeValues(result);
-     
     });
   }, [gameId]);
 
   const GamesFormKeys = {
-    Id:'_id',
+    Id: "_id",
     Title: "title",
     Category: "category",
     MaxLevel: "maxLevel",
@@ -40,7 +39,7 @@ export const EditPage = ({onGameEditSubmitHandler,}) => {
     <>
       {/*<!-- Edit Page ( Only htmlFor the creator )-->*/}
       <section id='edit-page' className='auth'>
-        <form id='edit' method="POST" onSubmit={onSubmit}>
+        <form id='edit' method='POST' onSubmit={onSubmit}>
           <div className='container'>
             <h1>Edit Game</h1>
             <label htmlFor='leg-title'>Legendary title:</label>
