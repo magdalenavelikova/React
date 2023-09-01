@@ -83,12 +83,15 @@ function App() {
                 </RouteGuard>
               }
             />
+            <Route element={<RouteGuard/>}>
             <Route
               path='/edit/:gameId'
               element={
                 <EditPage onGameEditSubmitHandler={onGameEditSubmitHandler} />
               }
             />
+            </Route>
+       
             <Route path='/catalogue' element={<Catalogue games={games} />} />
             <Route
               path='/catalogue/:gameId'
