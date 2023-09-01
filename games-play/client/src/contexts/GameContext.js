@@ -50,11 +50,15 @@ export const GameProvider=({
       const onDeleteGameHandler = (gameId) => {
         setGames((state) => state.filter((x) => x._id !== gameId));
       };
-    
+    const selectGame=(gameId)=>{
+        return games.find(game=>game._id=gameId);
+    };
+
       const context = {
         onCreateGameSubmitHandler,
         onGameEditSubmitHandler,
         onDeleteGameHandler,
+        selectGame,
         games,
         latestGames,
       };
