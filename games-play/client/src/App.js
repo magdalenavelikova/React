@@ -12,58 +12,53 @@ import { useEffect, useState } from "react";
 import { gameServiceFactory } from "./services/gameServiceFactory";
 
 import { AuthProvider } from "./contexts/AuthContext";
+import { RouteGuard } from "./components/Common/RouteGuard";
 //import { withAuth } from "./hoc/withAuth";
 
 function App() {
   const navigate = useNavigate();
   const [games, setGames] = useState([]);
   const [latestGames, setLatestGames] = useState([]);
- 
-  const gameService = gameServiceFactory();
-  
-  useEffect(() => {
-    Promise.all([
-      gameService.getAll(),
-      gameService.getLatest(),
-    ])
-    .then(([games, latestGames]) => {
-      setGames(games);
-      setLatestGames(latestGames);
-      console.log(latestGames);
-    });
 
-    
+  const gameService = gameServiceFactory();
+
+  useEffect(() => {
+    Promise.all([gameService.getAll(), gameService.getLatest()]).then(
+      ([games, latestGames]) => {
+        setGames(games);
+        setLatestGames(latestGames);
+        console.log(latestGames);
+      }
+    );
   }, []);
 
   const onCreateGameSubmitHandler = async (data) => {
     const newGame = gameService.create(data);
     if (newGame) {
       setGames((state) => [...state, data]);
-      setLatestGames((state) => [data,...state ]);
+      setLatestGames((state) => [data, ...state]);
       navigate("/catalogue");
     }
   };
-  
 
   const onGameEditSubmitHandler = async (data) => {
     const editedGame = await gameService.edit(data._id, data);
-        if (editedGame) {
+    if (editedGame) {
       setGames((state) =>
         state.map((x) => (x._id === data._id ? editedGame : x))
       );
       setLatestGames((state) =>
-      state.map((x) => (x._id === data._id ? editedGame : x))
-    );
+        state.map((x) => (x._id === data._id ? editedGame : x))
+      );
       navigate(`/catalogue/${data._id}`);
     }
   };
 
-  const onDeleteGameHandler=(gameId)=>{
-    setGames((state) =>
-    state.filter(x=>x._id !== gameId)); 
+  const onDeleteGameHandler = (gameId) => {
+    setGames((state) => state.filter((x) => x._id !== gameId));
   };
 
- //const EnhancedLogin=withAuth(LoginPage );
+  //const EnhancedLogin=withAuth(LoginPage );
 
   return (
     <AuthProvider>
@@ -74,15 +69,18 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage latestGames={latestGames} />} />
             <Route path='/login' element={<LoginPage />} />
-          {/*  <Route path='/login' element={<EnhancedLogin />} />*/}
+            {/*  <Route path='/login' element={<EnhancedLogin />} />*/}
             <Route path='/logout' element={<LogoutPage />} />
             <Route path='/register' element={<RegisterPage />} />
+
             <Route
               path='/create-game'
               element={
-                <CreatePage
-                  onCreateGameSubmitHandler={onCreateGameSubmitHandler}
-                />
+                <RouteGuard>
+                  <CreatePage
+                    onCreateGameSubmitHandler={onCreateGameSubmitHandler}
+                  />
+                </RouteGuard>
               }
             />
             <Route
@@ -92,7 +90,12 @@ function App() {
               }
             />
             <Route path='/catalogue' element={<Catalogue games={games} />} />
-            <Route path='/catalogue/:gameId' element={<DetailsPage onDeleteGameHandler={onDeleteGameHandler}/>} />
+            <Route
+              path='/catalogue/:gameId'
+              element={
+                <DetailsPage onDeleteGameHandler={onDeleteGameHandler} />
+              }
+            />
           </Routes>
         </main>
       </div>
