@@ -70,7 +70,7 @@ function App() {
             <Route path='/' element={<HomePage latestGames={latestGames} />} />
             <Route path='/login' element={<LoginPage />} />
             {/*  <Route path='/login' element={<EnhancedLogin />} />*/}
-            <Route path='/logout' element={<LogoutPage />} />
+           
             <Route path='/register' element={<RegisterPage />} />
 
             <Route
@@ -90,6 +90,7 @@ function App() {
                   <EditPage onGameEditSubmitHandler={onGameEditSubmitHandler} />
                 }
               />
+               <Route path='/logout' element={<LogoutPage />} />
             </Route>
 
             <Route path='/catalogue' element={<Catalogue games={games} />} />
@@ -99,6 +100,7 @@ function App() {
                 <DetailsPage onDeleteGameHandler={onDeleteGameHandler} />
               }
             />
+            
           </Routes>
         </main>
       </div>
