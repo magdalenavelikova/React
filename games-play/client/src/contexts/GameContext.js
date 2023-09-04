@@ -20,7 +20,7 @@ export const GameProvider=({
         ([games, latestGames]) => {
           setGames(games);
           setLatestGames(latestGames);
-          console.log(latestGames);
+         
         }
       );
     }, []);

@@ -35,9 +35,14 @@ export const DetailsPage = () => {
   }, [gameId]);
 
   const onDeleteClick = async () => {
-    await gameService.remove(game._id);
-    onDeleteGameHandler(game._id);
-    navigate("/catalogue");
+    // eslint-disable-next-line no-restricted-globals
+    const result = confirm(`Are you sure you want to delete ${game.title}`);
+    if (result){
+      await gameService.remove(game._id);
+      onDeleteGameHandler(game._id);
+      navigate("/catalogue");
+    }
+   
   };
 
   const onEditClick = () => {
