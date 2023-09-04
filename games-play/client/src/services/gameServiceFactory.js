@@ -20,7 +20,7 @@ export const gameServiceFactory = (token) => {
 
   const create = async (gameData) => {
     const result = await request.post(baseUrl, gameData);
-    return result;
+        return result;
   };
 
   const getById = async (id) => {
