@@ -1,6 +1,11 @@
 import { requestFactory } from "./requester";
+console.log(process.env.NODE_ENV);
+const host =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3030"
+    : "http://localhost:3030";
 
-const baseUrl = "http://localhost:3030/data/games";
+const baseUrl = `${host}/data/games`;
 
 export const gameServiceFactory = (token) => {
   const request = requestFactory();
@@ -11,16 +16,18 @@ export const gameServiceFactory = (token) => {
   };
 
   const getLatest = async () => {
-    const query = encodeURIComponent('_createdOn desc');
+    const query = encodeURIComponent("_createdOn desc");
     ///data/games?sortBy=_createdOn%20desc&distinct=category
-    const result = await request.get(`${baseUrl}?sortBy=${query}&distinct=category`);
+    const result = await request.get(
+      `${baseUrl}?sortBy=${query}&distinct=category`
+    );
     const latestGames = Object.values(result);
     return latestGames;
   };
 
   const create = async (gameData) => {
     const result = await request.post(baseUrl, gameData);
-        return result;
+    return result;
   };
 
   const getById = async (id) => {
@@ -37,16 +44,16 @@ export const gameServiceFactory = (token) => {
     request.remove(`${baseUrl}/${gameId}`);
   };
 
-  const edit =  (gameId, data) => {
-  const result =  request.put(`${baseUrl}/${gameId}`, data);
-  return result;
+  const edit = (gameId, data) => {
+    const result = request.put(`${baseUrl}/${gameId}`, data);
+    return result;
   };
 
   return {
     getAll,
     create,
     getById,
-   getLatest,
+    getLatest,
     remove,
     edit,
   };
