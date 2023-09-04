@@ -1,0 +1,9 @@
+.navigation li{
+list-style: none;
+display: inline;
+margin-left: 20px;
+}
+.navigation a{
+    color: white;
+    text-decoration: none;
+}
