@@ -1,24 +1,120 @@
 import * as userService from "./services/userService";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { Fragment, useEffect,useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Search from "./components/Search";
 import UserList from "./components/UserList";
-import NewUser from "./components/NewUser";
+
 import "./App.css";
+
 function App() {
-const[users,setUsers]=useState([]);
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    imageUrl: "",
+    phoneNumber: "",
+    country: "",
+    city: "",
+    street: "",
+    streetNumber: "",
+  });
+
+  const onFormChangeHandler = (e) => {
+    setFormValues((state) => ({ ...state, [e.target.name]: e.target.value }));
+  };
+
+  const [formErrors, setFormErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    imageUrl: "",
+    phoneNumber: "",
+    country: "",
+    city: "",
+    street: "",
+    streetNumber: "",
+  });
+
+  const onFormValidate = (e) => {
+    const value = e.target.value;
+    const targetName = e.target.name;
+    let errors = {};
+    if (targetName === "firstName" && value.length < 3) {
+      errors.firstName = "The input should be at least 3 characters long!";
+    }
+    if (targetName === "lastName" && value.length < 3) {
+      errors.lastName = "The input should be at least 3 characters long!";
+    }
+    if (targetName === "city" && value.length < 3) {
+      errors.city = "The input should be at least 3 characters long!";
+    }
+    if (targetName === "country" && value.length < 3) {
+      errors.country = "The input should be at least 3 characters long!";
+    }
+    if (targetName === "street" && value.length < 3) {
+      errors.street = "The input should be at least 3 characters long!";
+    }
+    //setErrors((state) => ({ ...state, [e.target.targetName]: error }));
+    setFormErrors(errors);
+  };
+
+  const [users, setUsers] = useState([]);
+
+  const onUserCreate = async (e) => {
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+    const { country, city, street, streetNumber, ...userData } = data;
+    userData.address = { country, city, street, streetNumber };
+
+    const createdUser = await userService.create(userData);
+    if (createdUser) {
+      setUsers((state) => [...state, createdUser]);
+    }
+  };
+
+  const onUserEdit = async (userId, e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+    const { country, city, street, streetNumber, ...userData } = data;
+    userData.address = { country, city, street, streetNumber };
+    userData._id = userId;
+    const editedUser = await userService.editUser(userData);
+    
+    if (editedUser) {
+      setUsers((state) =>
+      state.map(u => u._id===editedUser._id ? editedUser : u)
+      );
+    }
+  };
+
+  const onUserDelete = async (userId) => {
+    await userService.remove(userId);
+    setUsers((state) => state.filter((u) => u.Id !== userId));
+  };
 
   useEffect(() => {
     userService
       .getAll()
       .then((u) => {
-       setUsers(u);
+        setUsers(u);
       })
       .catch((err) => {
         console.log("Error: " + err);
       });
   }, []);
+  /*{ useEffect(() => {
+    userService
+      .getAll()
+      .then((u) => {
+        setUsers(u);
+      })
+      .catch((err) => {
+        console.log('Error: ' + err);
+      });
+  }, [onUserEdit]);}*/
+
   return (
     //<></> without import Fragment;
     <Fragment>
@@ -27,8 +123,16 @@ const[users,setUsers]=useState([]);
       <main className='main'>
         <section className='card users-container'>
           <Search />
-          <UserList users={users} />
-          <NewUser />
+          <UserList
+            users={users}
+            onUserCreate={onUserCreate}
+            onUserDelete={onUserDelete}
+            onUserEdit={onUserEdit}
+            formValues={formValues}
+            onFormChangeHandler={onFormChangeHandler}
+            onFormValidate={onFormValidate}
+            formErrors={formErrors}
+          />
         </section>
       </main>
 
