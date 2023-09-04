@@ -3,6 +3,7 @@ import { CatalogueItem } from "./CatalogueItem";
 
 export const Catalogue = () => {
   const{games}=useGameContext();
+ 
   return (
     <>
       {/*<!-- Catalogue -->*/}

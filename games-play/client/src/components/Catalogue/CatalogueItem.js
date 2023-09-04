@@ -6,6 +6,7 @@ export const CatalogueItem=({
     category,
 
 })=>{
+    
     return(
         <div className="allGames">
         <div className="allGames-info">

@@ -44,7 +44,7 @@ function App() {
                 <Route path='/logout' element={<LogoutPage />} />
               </Route>
 
-              <Route path='/catalogue' element={<Catalogue />} />
+              <Route path='/catalogue' element={<Catalogue/>} />
               <Route path='/catalogue/:gameId' element={<DetailsPage />} />
             </Routes>
           </main>
