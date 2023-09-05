@@ -1,4 +1,10 @@
-import { useEffect, useState, createContext, useContext } from "react";
+import {
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+  useCallback,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { gameServiceFactory } from "../services/gameServiceFactory";
 
@@ -27,8 +33,7 @@ export const GameProvider = ({ children }) => {
       setGames((state) => [...state, newGame]);
       setLatestGames((state) => [newGame, ...state]);
       navigate("/catalogue");
-         }
-       
+    }
   };
 
   const onGameEditSubmitHandler = async (data) => {
@@ -47,9 +52,10 @@ export const GameProvider = ({ children }) => {
   const onDeleteGameHandler = (gameId) => {
     setGames((state) => state.filter((x) => x._id !== gameId));
   };
-  const selectGame = (gameId) => {
+
+  const selectGame = useCallback((gameId) => {
     return games.find((game) => (game._id = gameId));
-  };
+  }, []);
 
   const context = {
     onCreateGameSubmitHandler,
@@ -59,7 +65,7 @@ export const GameProvider = ({ children }) => {
     games,
     latestGames,
   };
- 
+
   return (
     <>
       <GameContext.Provider value={context}>{children}</GameContext.Provider>
